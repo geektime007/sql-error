@@ -60,6 +60,7 @@ func InsertUser(user User) error {
 	if e != nil {
 		return e
 	}
+	defer stmt.Close()
 	_, e = stmt.Exec(user.Name, user.Age, user.Job, user.Hobby)
 	return e
 }
