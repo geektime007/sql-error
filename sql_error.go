@@ -67,7 +67,7 @@ func QueryUserNameById(id int) (string, error) {
 	var name string
 	q := `select name from user where id = ?`
 	e := db.QueryRow(q, id).Scan(&name)
-	if e == sql.ErrNoRows {
+	if errors.Is(e, sql.ErrNoRows) {
 		return "", errors.Wrapf(sql.ErrNoRows, "user id=%v not found", id)
 	} else if e != nil {
 		return "", errors.Wrap(e, "db error.")
