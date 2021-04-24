@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"os"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -27,14 +28,14 @@ func DBInit() {
 	var e error
 	db, e = sql.Open(dbDriverName, dbName)
 	if e != nil {
-		panic("connect db failed.")
+		log.Fatalln("connect db failed.")
 	}
-	fmt.Println("db connnect success")
+	log.Println("db connnect success")
 }
 
 func DBClose() {
 	db.Close()
-	fmt.Println("db connect closed.")
+	log.Println("db connect closed.")
 }
 
 func createTable() error {
@@ -86,10 +87,10 @@ func main() {
 
 	_, e := QueryUserNameById(1)
 	if errors.Cause(e) == sql.ErrNoRows {
-		fmt.Printf("user not found, %v\n", e)
-		fmt.Printf("%+v\n", e)
+		log.Printf("user not found, %v\n", e)
+		log.Printf("%+v\n", e)
 	} else if e != nil {
-		fmt.Println("db error.", e)
+		log.Println("db error.", e)
 	}
 
 	for i := 0; i < 5; i++ {
@@ -100,21 +101,21 @@ func main() {
 			Hobby: "Play Game",
 		}
 		if e := InsertUser(user); e != nil {
-			panic("insert user to db failed.")
+			log.Fatalln("insert user to db failed.")
 		}
 	}
 
-	fmt.Println("insert user success.")
+	log.Println("insert user success.")
 
 	for i := 0; i < 6; i++ {
 		name, e := QueryUserNameById(i)
 		if errors.Cause(e) == sql.ErrNoRows {
-			fmt.Printf("user not found, %v\n", e)
-			fmt.Printf("%+v\n", e)
+			log.Printf("user not found, %v\n", e)
+			log.Printf("%+v\n", e)
 		} else if e != nil {
-			fmt.Println("db error.", e)
+			log.Println("db error.", e)
 		} else {
-			fmt.Printf("find user id=%v, name is %v\n", i, name)
+			log.Printf("find user id=%v, name is %v\n", i, name)
 		}
 	}
 }
