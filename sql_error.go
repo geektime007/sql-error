@@ -24,6 +24,22 @@ type User struct {
 	Hobby string
 }
 
+// 处理思路:
+//dao:
+//
+// return errors.Wrapf(errors.NotFound, fmt.Sprintf("sql: %s error: %v", sql, err))
+//
+//
+//biz:
+//
+//if errors.Is(err, errors.NotFound} {
+//
+//}
+//
+//if errors.Reason(err, xxxx) == xxxx {
+//
+//}
+
 func DBInit() {
 	var e error
 	db, e = sql.Open(dbDriverName, dbName)
